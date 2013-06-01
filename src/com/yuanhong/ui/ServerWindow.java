@@ -3,6 +3,7 @@ package com.yuanhong.ui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class ServerWindow {
 
@@ -36,8 +37,13 @@ public class ServerWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setTitle("\u670D\u52A1\u5668");
+		frame.setBounds(100, 100, 468, 476);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(10, 10, 54, 15);
+		frame.getContentPane().add(lblNewLabel);
 	}
-
 }
