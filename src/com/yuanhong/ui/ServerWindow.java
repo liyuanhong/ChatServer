@@ -1,14 +1,16 @@
 package com.yuanhong.ui;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import com.yuanhong.listener.StartStooServerListener;
 
 public class ServerWindow {
 
@@ -61,9 +63,10 @@ public class ServerWindow {
 		textField.setColumns(10);
 		
 		JButton start_stopServer = new JButton("\u542F\u52A8\u670D\u52A1");
-		start_stopServer.setBounds(330, 6, 93, 23);
+		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
+		start_stopServer.addMouseListener(new StartStooServerListener(start_stopServer));
 		
 		JLabel lblNewLabel = new JLabel("\u6240\u6709\u5728\u7EBF\u7528\u6237\uFF1A");
 		lblNewLabel.setBounds(10, 38, 111, 15);
@@ -85,3 +88,4 @@ public class ServerWindow {
 		frame.getContentPane().add(lblNewLabel_1);
 	}
 }
+
