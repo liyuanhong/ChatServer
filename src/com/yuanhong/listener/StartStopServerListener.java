@@ -7,10 +7,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 
-public class StartStooServerListener extends MouseAdapter {
+public class StartStopServerListener extends MouseAdapter {
 	JButton start_stopServer;
 
-	public StartStooServerListener(JButton start_stopServer) {
+	public StartStopServerListener(JButton start_stopServer) {
 		this.start_stopServer = start_stopServer;
 	}
 
