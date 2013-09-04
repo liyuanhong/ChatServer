@@ -10,8 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import com.yuanhong.listener.StartStopServerKeyboardListener;
-import com.yuanhong.listener.StartStopServerListener;
+import com.yuanhong.listener.StartStooServerListener;
 
 public class ServerWindow {
 
@@ -67,11 +66,7 @@ public class ServerWindow {
 		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer));
-		start_stopServer.setFocusable(true);		
-		frame.getRootPane().setDefaultButton(start_stopServer);
-		start_stopServer.requestFocus();
+		start_stopServer.addMouseListener(new StartStooServerListener(start_stopServer));
 		
 		JLabel lblNewLabel = new JLabel("\u6240\u6709\u5728\u7EBF\u7528\u6237\uFF1A");
 		lblNewLabel.setBounds(10, 38, 111, 15);
