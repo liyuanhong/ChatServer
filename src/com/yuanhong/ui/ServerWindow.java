@@ -12,11 +12,15 @@ import javax.swing.JTextField;
 
 import com.yuanhong.listener.StartStopServerKeyboardListener;
 import com.yuanhong.listener.StartStopServerListener;
+import com.yuanhong.service.MainService;
+import com.yuanhong.util.ServiceCtrol;
 
 public class ServerWindow {
 
 	private JFrame frame;
 	private JTextField textField;
+	private ServiceCtrol serviceCtrol;
+	private MainService mainService;
 
 	/**
 	 * Launch the application.
@@ -45,6 +49,8 @@ public class ServerWindow {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		serviceCtrol = new ServiceCtrol();
+		
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setTitle("\u670D\u52A1\u5668");
@@ -68,7 +74,7 @@ public class ServerWindow {
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
 		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer));
+		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService));
 		start_stopServer.setFocusable(true);		
 		frame.getRootPane().setDefaultButton(start_stopServer);
 		start_stopServer.requestFocus();
@@ -91,6 +97,7 @@ public class ServerWindow {
 		lblNewLabel_1.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(10, 63, 432, 15);
 		frame.getContentPane().add(lblNewLabel_1);
+		
 	}
 }
 
