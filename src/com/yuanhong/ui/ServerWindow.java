@@ -73,7 +73,7 @@ public class ServerWindow {
 		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer));
+		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService));
 		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService));
 		start_stopServer.setFocusable(true);		
 		frame.getRootPane().setDefaultButton(start_stopServer);
