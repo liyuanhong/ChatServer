@@ -15,6 +15,8 @@ import com.yuanhong.listener.StartStopServerListener;
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
 import com.yuanhong.util.ServicePort;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 public class ServerWindow {
 
@@ -91,10 +93,18 @@ public class ServerWindow {
 		scrollPane.setBounds(10, 79, 432, 349);
 		frame.getContentPane().add(scrollPane);
 		
-		JTextArea txtrAsdfAsdfAds = new JTextArea();
-		txtrAsdfAsdfAds.setLineWrap(true);
-		txtrAsdfAsdfAds.setEditable(false);
-		scrollPane.setViewportView(txtrAsdfAsdfAds);
+		JList userInfo = new JList();
+		userInfo.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
+		userInfo.setModel(new AbstractListModel() {
+			String[] values = new String[] {"aaaaaaaaaaaaa", "sssssssdddddddddd", "ddddddddddddd", "jjjjjjjjjjjjjjjjjjj", "kkkkkkkkkkkkkkkkkkkk", "ooooooooooooooo", "ppppppppppppppp"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		scrollPane.setViewportView(userInfo);
 		
 		JLabel lblNewLabel_1 = new JLabel("\u7528\u6237\u540D\uFF1A           \u7AEF\u53E3\u53F7\uFF1A           ip\u5730\u5740\uFF1A");
 		lblNewLabel_1.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
