@@ -22,6 +22,7 @@ public class MainService extends Thread{
 			this.serviceCtrol = serviceCtrol;
 		} catch (Exception e) {
 			e.printStackTrace();
+			this.serviceCtrol = serviceCtrol;
 		}
 	}
 
@@ -29,7 +30,6 @@ public class MainService extends Thread{
 	public void run() {
 		int len;
 		char[] ch = new char[512];
-		System.out.println(serviceCtrol);
 		while (serviceCtrol.getCtrol() == 0) {
 			message = "";
 			System.out.println("okokokokokokokokokokoko");

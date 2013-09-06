@@ -35,12 +35,14 @@ public class StartStopServerKeyboardListener extends KeyAdapter{
 				serviceCtrol.setCtrol(0);
 				mainService = new MainService(port,serviceCtrol);
 				mainService.start();	
+				System.out.println(serviceCtrol);
 			} else if (start_stopServer.getText() == "停止服务") {
 				Font font = new Font("宋体", Font.PLAIN, 14);
 				start_stopServer.setForeground(Color.BLACK);
 				start_stopServer.setFont(font);
 				start_stopServer.setText("启动服务");
 				serviceCtrol.setCtrol(1);
+				System.out.println(serviceCtrol);
 			}
 		}
 	}
