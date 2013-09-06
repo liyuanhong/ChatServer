@@ -109,8 +109,7 @@ public class ServerWindow {
 		JLabel lblNewLabel_1 = new JLabel("\u7528\u6237\u540D\uFF1A           \u7AEF\u53E3\u53F7\uFF1A           ip\u5730\u5740\uFF1A");
 		lblNewLabel_1.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(10, 63, 432, 15);
-		frame.getContentPane().add(lblNewLabel_1);
-		
+		frame.getContentPane().add(lblNewLabel_1);		
 	}
 }
 
