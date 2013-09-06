@@ -14,6 +14,7 @@ import com.yuanhong.listener.StartStopServerKeyboardListener;
 import com.yuanhong.listener.StartStopServerListener;
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
+import com.yuanhong.util.ServicePort;
 
 public class ServerWindow {
 
@@ -21,6 +22,7 @@ public class ServerWindow {
 	private JTextField textField;
 	private ServiceCtrol serviceCtrol;
 	private MainService mainService;
+	private ServicePort port;
 
 	/**
 	 * Launch the application.
@@ -50,6 +52,7 @@ public class ServerWindow {
 	 */
 	private void initialize() {
 		serviceCtrol = new ServiceCtrol();
+		port = new ServicePort();
 		
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -73,8 +76,8 @@ public class ServerWindow {
 		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService));
+		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port));
+		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port));
 		start_stopServer.setFocusable(true);		
 		frame.getRootPane().setDefaultButton(start_stopServer);
 		start_stopServer.requestFocus();

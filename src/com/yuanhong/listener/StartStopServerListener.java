@@ -9,18 +9,20 @@ import javax.swing.JButton;
 
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
+import com.yuanhong.util.ServicePort;
 
 public class StartStopServerListener extends MouseAdapter {
 	private JButton start_stopServer;
 	private ServiceCtrol serviceCtrol;
 	private MainService mainService;
-	private int port = 3000;
+	private ServicePort port;
 	
 
-	public StartStopServerListener(JButton start_stopServer,ServiceCtrol serviceCtrol,MainService mainService) {
+	public StartStopServerListener(JButton start_stopServer,ServiceCtrol serviceCtrol,MainService mainService,ServicePort port) {
 		this.start_stopServer = start_stopServer;
 		this.serviceCtrol = serviceCtrol;
 		this.mainService = mainService;
+		this.port = port;
 	}
 
 	@Override

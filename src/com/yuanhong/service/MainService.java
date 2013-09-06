@@ -6,19 +6,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.yuanhong.util.ServiceCtrol;
+import com.yuanhong.util.ServicePort;
 
 public class MainService extends Thread{
 	private String message = "";
 	private ServerSocket serSocket;
 	private Socket socket;
-	private int port;
+	private ServicePort port;
 	private InputStreamReader reader;
 	private ServiceCtrol serviceCtrol;
 
-	public MainService(int port,ServiceCtrol serviceCtrol) {
+	public MainService(ServicePort port,ServiceCtrol serviceCtrol) {
 		this.port = port;
 		try {
-			this.serSocket = new ServerSocket(port);
+			this.serSocket = new ServerSocket(port.getPort());
 			this.serviceCtrol = serviceCtrol;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,19 +34,19 @@ public class MainService extends Thread{
 		while (serviceCtrol.getCtrol() == 0) {
 			message = "";
 			System.out.println("okokokokokokokokokokoko");
-//			try {
-//				socket = serSocket.accept();
-//				reader = new InputStreamReader(socket.getInputStream());
-//				while ((len = reader.read(ch)) != -1) {
-//					message = message + String.valueOf(ch, 0, len);
-//				}
-//				if(message != ""){
-//					System.out.println(message);
-//				}	
-//				reader = null;
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				socket = serSocket.accept();
+				reader = new InputStreamReader(socket.getInputStream());
+				while ((len = reader.read(ch)) != -1) {
+					message = message + String.valueOf(ch, 0, len);
+				}
+				if(message != ""){
+					System.out.println(message);
+				}	
+				reader = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
