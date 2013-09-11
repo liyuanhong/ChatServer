@@ -21,7 +21,7 @@ import javax.swing.AbstractListModel;
 public class ServerWindow {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField portField;
 	private ServiceCtrol serviceCtrol;
 	private MainService mainService;
 	private ServicePort port;
@@ -68,18 +68,19 @@ public class ServerWindow {
 		serverPort.setFont(new Font("宋体", Font.BOLD, 14));
 		frame.getContentPane().add(serverPort);
 		
-		textField = new JTextField();
-		textField.setBounds(71, 7, 66, 21);
-		textField.setFont(new Font("宋体", Font.PLAIN, 14));
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		portField = new JTextField();
+		portField.setText("3000");
+		portField.setBounds(71, 7, 66, 21);
+		portField.setFont(new Font("宋体", Font.PLAIN, 14));
+		frame.getContentPane().add(portField);
+		portField.setColumns(10);
 		
 		JButton start_stopServer = new JButton("\u542F\u52A8\u670D\u52A1");
 		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("宋体", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port));
+		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,portField));
+		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port,portField));
 		start_stopServer.setFocusable(true);		
 		frame.getRootPane().setDefaultButton(start_stopServer);
 		start_stopServer.requestFocus();
