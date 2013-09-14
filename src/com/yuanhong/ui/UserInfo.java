@@ -1,0 +1,19 @@
+package com.yuanhong.ui;
+
+//此类用于存储用户的地址信息，以便于在主要服务中遍历map，实现群发群发
+public class UserInfo {
+	private int port;
+	private String address;
+	public int getPort() {
+		return port;
+	}
+	public void setPort(int port) {
+		this.port = port;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+}

@@ -8,6 +8,7 @@ import java.net.Socket;
 import javax.swing.JTextField;
 
 import com.yuanhong.util.AnalyseMessage;
+import com.yuanhong.util.MessageType;
 import com.yuanhong.util.ServiceCtrol;
 
 public class MainService extends Thread {
@@ -37,8 +38,11 @@ public class MainService extends Thread {
 		int len;
 		char[] ch = new char[512];
 		while (serviceCtrol.getCtrol() == 0) {
+			infomation = "";
 			try {
 				socket = serSocket.accept();
+				System.out.println(socket.getInetAddress().toString().substring(1));
+				System.out.println("========================");
 				reader = new InputStreamReader(socket.getInputStream());
 				while ((len = reader.read(ch)) != -1) {
 					infomation = infomation + String.valueOf(ch, 0, len);
@@ -62,5 +66,39 @@ public class MainService extends Thread {
 				portField.setEditable(true);
 			}
 		}
+	}
+	
+	public String getClientAddress(){
+		return socket.getInetAddress().toString().substring(1);
+	}
+	
+	//对不同的消息类型进行处理
+	public void dealWithMessage(int messType){
+		switch(messType){
+		case 0 : 
+			
+		case 1 :
+			
+		case 2 :
+			
+		case 3 :
+
+		}
+	}
+	
+	public void dealWithDefault(){
+		
+	}
+	
+	public void dealWithLogin(){
+		
+	}
+	
+	public void dealWithLogout(){
+		
+	}
+	
+	public void dealWithSendAll(){
+		
 	}
 }

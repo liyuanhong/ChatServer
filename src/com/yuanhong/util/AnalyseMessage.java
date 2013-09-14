@@ -15,6 +15,8 @@ public class AnalyseMessage {
 	private String userName;
 	private String sendedUser;
 	private JSONObject destination;
+	private int clientPort;
+	private String clientAddress;
 	
 	public int getPort() {
 		return port;
@@ -52,9 +54,21 @@ public class AnalyseMessage {
 	public void setSendedUser(String sendedUser) {
 		this.sendedUser = sendedUser;
 	}
+	public int getClientPort() {
+		return clientPort;
+	}
+	public void setClientPort(int clientPort) {
+		this.clientPort = clientPort;
+	}
+	public String getClientAddress() {
+		return clientAddress;
+	}
+	public void setClientAddress(String clientAddress) {
+		this.clientAddress = clientAddress;
+	}
 	public AnalyseMessage(String information) {
 		try {
-			JSONObject json = new JSONObject(information);			
+			JSONObject json = new JSONObject(information);	
 			
 			messType = Integer.parseInt(json.get("messType").toString());
 			message = json.get("message").toString();
@@ -62,11 +76,13 @@ public class AnalyseMessage {
 			sendedUser = json.getString("sendedUser").toString();
 			
 			destination = new JSONObject(json.get("destination").toString());
-			port = Integer.parseInt(destination.get("port").toString());
-			address =  destination.get("address").toString();
+			
+			if(destination.length() != 0){
+				port = Integer.parseInt(destination.get("port").toString());
+				address =  destination.get("address").toString();
+			}			
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 }
