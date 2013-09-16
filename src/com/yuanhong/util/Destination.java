@@ -1,4 +1,4 @@
-package com.yuanhong.ui;
+package com.yuanhong.util;
 
 public class Destination {
 	private String address;

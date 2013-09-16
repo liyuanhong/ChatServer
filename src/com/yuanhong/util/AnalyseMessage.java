@@ -5,7 +5,6 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.yuanhong.ui.Destination;
 
 public class AnalyseMessage {
 	private int port;
