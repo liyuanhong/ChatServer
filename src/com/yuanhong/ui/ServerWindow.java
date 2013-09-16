@@ -2,6 +2,9 @@ package com.yuanhong.ui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +18,8 @@ import com.yuanhong.listener.StartStopServerListener;
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
 import com.yuanhong.util.ServicePort;
+import com.yuanhong.util.UserInfo;
+
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 
@@ -25,6 +30,8 @@ public class ServerWindow {
 	private ServiceCtrol serviceCtrol;
 	private MainService mainService;
 	private ServicePort port;
+	private Vector userInfoList;
+	private Map<String, UserInfo> allUserMap;
 
 	/**
 	 * Launch the application.
@@ -55,6 +62,8 @@ public class ServerWindow {
 	private void initialize() {
 		serviceCtrol = new ServiceCtrol();
 		port = new ServicePort();
+		userInfoList = new Vector();
+		allUserMap = new HashMap<String, UserInfo>();
 		
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -79,8 +88,7 @@ public class ServerWindow {
 		start_stopServer.setBounds(324, 6, 112, 23);
 		start_stopServer.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		frame.getContentPane().add(start_stopServer);
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,portField));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port,portField));
+		
 		start_stopServer.setFocusable(true);		
 		frame.getRootPane().setDefaultButton(start_stopServer);
 		start_stopServer.requestFocus();
@@ -97,7 +105,7 @@ public class ServerWindow {
 		JList userInfo = new JList();
 		userInfo.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		userInfo.setModel(new AbstractListModel() {
-			String[] values = new String[] {"aaaaaaaaaaaaa", "sssssssdddddddddd", "ddddddddddddd", "jjjjjjjjjjjjjjjjjjj", "kkkkkkkkkkkkkkkkkkkk", "ooooooooooooooo", "ppppppppppppppp"};
+			String[] values = new String[] {};
 			public int getSize() {
 				return values.length;
 			}
@@ -110,7 +118,11 @@ public class ServerWindow {
 		JLabel lblNewLabel_1 = new JLabel("\u7528\u6237\u540D\uFF1A           \u7AEF\u53E3\u53F7\uFF1A           ip\u5730\u5740\uFF1A");
 		lblNewLabel_1.setFont(new Font("ËÎÌו", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(10, 63, 432, 15);
-		frame.getContentPane().add(lblNewLabel_1);		
+		frame.getContentPane().add(lblNewLabel_1);	
+		
+		
+		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
+		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
 	}
 }
 

@@ -6,13 +6,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JTextField;
 
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
 import com.yuanhong.util.ServicePort;
+import com.yuanhong.util.UserInfo;
 
 public class StartStopServerListener extends MouseAdapter {
 	private JButton start_stopServer;
@@ -21,14 +25,23 @@ public class StartStopServerListener extends MouseAdapter {
 	private ServicePort port;
 	private JTextField portField;
 	private ServerSocket serSocket;
+	private JList userInfo;
+	private Vector userInfoList;
+	private Map<String, UserInfo> allUserMap;
 	
 
-	public StartStopServerListener(JButton start_stopServer,ServiceCtrol serviceCtrol,MainService mainService,ServicePort port,JTextField portField) {
+	public StartStopServerListener(JButton start_stopServer,
+			ServiceCtrol serviceCtrol,MainService mainService,
+			ServicePort port,JTextField portField,JList userInfo,Vector userInfoList,
+			Map<String, UserInfo> allUserMap) {
 		this.start_stopServer = start_stopServer;
 		this.serviceCtrol = serviceCtrol;
 		this.mainService = mainService;
 		this.port = port;
 		this.portField = portField;
+		this.userInfo = userInfo;
+		this.userInfoList = userInfoList;
+		this.allUserMap = allUserMap;
 	}
 
 	@Override
@@ -51,7 +64,7 @@ public class StartStopServerListener extends MouseAdapter {
 				e1.printStackTrace();
 			}
 			
-			mainService = new MainService(serviceCtrol,serSocket,portField);
+			mainService = new MainService(serviceCtrol,serSocket,portField,userInfo,userInfoList,allUserMap);
 			mainService.start();	
 		} else if (start_stopServer.getText() == "Í£Ö¹·þÎñ") {
 			Font font = new Font("ËÎÌå", Font.PLAIN, 14);

@@ -4,6 +4,7 @@ package com.yuanhong.util;
 public class UserInfo {
 	private int port;
 	private String address;
+	private int position;
 	public int getPort() {
 		return port;
 	}
@@ -15,5 +16,11 @@ public class UserInfo {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }

@@ -73,6 +73,7 @@ public class AnalyseMessage {
 			message = json.get("message").toString();
 			userName = json.get("userName").toString();
 			sendedUser = json.getString("sendedUser").toString();
+			clientPort = Integer.parseInt(json.get("clientPort").toString());
 			
 			destination = new JSONObject(json.get("destination").toString());
 			
