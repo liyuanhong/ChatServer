@@ -2,8 +2,11 @@ package com.yuanhong.service;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -99,32 +102,37 @@ public class MainService extends Thread {
 	}
 	
 	public void dealWithLogin(JList userInfo,String userName,int port,String address,Vector userInfoList){
-		String name = userName;
-		String userInformation = "";
-		if(name.length() > 18){
-			name = name.substring(0, 14);
-			name = name + "...";
+		System.out.println(port + "++++++" + address);
+		if(isUserNameUsed(userName, allUserMap)){
+			sendLoginStatus(port, address, "1");
+			System.out.println("userName is used !");
+		}else{
+			sendLoginStatus(port, address,"0");
+			String name = userName;
+			String userInformation = "";
+			if(name.length() > 18){
+				name = name.substring(0, 14);
+				name = name + "...";
+			}
+			userInformation = userInformation + name;
+			for(int i = 0;i < (24 - name.length());i++){
+				userInformation = userInformation + " ";
+			}
+			userInformation = userInformation +port;
+			
+			for(int i = 0;i < (62 - userInformation.length());i++){
+				userInformation = userInformation + " ";
+			}
+			userInformation = userInformation +address;
+			userInfoList.add(userInformation);
+			
+			userInfo.setListData(userInfoList);
+			UserInfo aUserInfo = new UserInfo();
+			aUserInfo.setAddress(address);
+			aUserInfo.setPort(port);
+			aUserInfo.setPosition(userInfoList.size()); //设置用户信息在vetor中的某个位置，以便用户退出时进行用户信息的删除操作
+			allUserMap.put(name, aUserInfo);
 		}
-		userInformation = userInformation + name;
-		for(int i = 0;i < (24 - name.length());i++){
-			userInformation = userInformation + " ";
-		}
-		userInformation = userInformation +port;
-		
-		for(int i = 0;i < (62 - userInformation.length());i++){
-			userInformation = userInformation + " ";
-		}
-		userInformation = userInformation +address;
-		userInfoList.add(userInformation);
-		
-		userInfo.setListData(userInfoList);
-		UserInfo aUserInfo = new UserInfo();
-		aUserInfo.setAddress(address);
-		aUserInfo.setPort(port);
-		aUserInfo.setPosition(userInfoList.size()); //设置用户信息在vetor中的某个位置，以便用户退出时进行用户信息的删除操作
-		allUserMap.put(name, aUserInfo);
-		System.out.println("-------------");
-		System.out.println(allUserMap.size());
 	}
 	
 	public void dealWithLogout(){
@@ -133,5 +141,25 @@ public class MainService extends Thread {
 	
 	public void dealWithSendAll(){
 		
+	}
+	
+	public boolean isUserNameUsed(String userName,Map<String, UserInfo> allUserMap){
+		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
+			if(ite.next().equals(userName)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void sendLoginStatus(int clientPort,String clientAddress,String status){
+		try {
+			Socket soc = new Socket(clientAddress, clientPort);
+			OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
+			output.write(status);
+			output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
