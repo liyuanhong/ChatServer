@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
@@ -13,7 +12,10 @@ import java.util.Vector;
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import org.json.JSONObject;
+
 import com.yuanhong.util.AnalyseMessage;
+import com.yuanhong.util.MessageClass;
 import com.yuanhong.util.MessageType;
 import com.yuanhong.util.ServiceCtrol;
 import com.yuanhong.util.UserInfo;
@@ -25,14 +27,14 @@ public class MainService extends Thread {
 	private InputStreamReader reader;
 	private ServiceCtrol serviceCtrol;
 	private JTextField portField;
-	private String sendedUser;
+	private String sendedUser;              //要发送消息的用户
 	private JList userInfo;
 	private Vector userInfoList;
 	private Map<String, UserInfo> allUserMap;
 
 	private int messType;
 	private String message;
-	private String userName;
+	private String userName;                  //发送消息的用户
 	private int port;
 	private String address;
 
@@ -68,6 +70,7 @@ public class MainService extends Thread {
 				userName = analyze.getUserName();
 				address = socket.getInetAddress().toString().substring(1);
 				sendedUser = analyze.getSendedUser();
+				userName = analyze.getUserName();
 				
 				dealWithMessage(messType);
 				
@@ -87,22 +90,47 @@ public class MainService extends Thread {
 	public void dealWithMessage(int messType){
 		switch(messType){
 		case 0 : 
-			
+			dealWithDefault(sendedUser);
+			break;
 		case 1 :
 			
+			break;
 		case 2 :
 			
+			break;
 		case 3 :
-				dealWithLogin(userInfo,userName,port,address,userInfoList);
+			dealWithLogin(userInfo,userName,port,address,userInfoList);
+			break;
 		}
 	}
 	
-	public void dealWithDefault(){
-		
+	public void dealWithDefault(String userName){
+		String name = "";
+		UserInfo userInfor_inner = null;
+		MessageClass message;
+		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
+			if((name = ite.next()).equals(userName)){
+				userInfor_inner = (UserInfo)allUserMap.get(name);
+			}
+			try {
+				message = new MessageClass();		
+				message.setSendedUser(userName);
+				message.setMessType(MessageType.DEFAULT);
+				message.setMessage(this.message);
+				
+				JSONObject json = new JSONObject(message.getJsonMap());
+				
+				Socket soc = new Socket(userInfor_inner.getAddress(), userInfor_inner.getPort());
+				OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
+				output.write(json.toString());
+				output.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void dealWithLogin(JList userInfo,String userName,int port,String address,Vector userInfoList){
-		System.out.println(port + "++++++" + address);
 		if(isUserNameUsed(userName, allUserMap)){
 			sendLoginStatus(port, address, "1");
 			System.out.println("userName is used !");
