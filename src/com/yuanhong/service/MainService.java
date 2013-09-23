@@ -7,11 +7,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.JList;
 import javax.swing.JTextField;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.yuanhong.util.AnalyseMessage;
@@ -55,6 +57,7 @@ public class MainService extends Thread {
 		char[] ch = new char[512];
 		while (serviceCtrol.getCtrol() == 0) {
 			infomation = "";
+			
 			try {
 				socket = serSocket.accept();
 				reader = new InputStreamReader(socket.getInputStream());
@@ -70,7 +73,6 @@ public class MainService extends Thread {
 				userName = analyze.getUserName();
 				address = socket.getInetAddress().toString().substring(1);
 				sendedUser = analyze.getSendedUser();
-				userName = analyze.getUserName();
 				
 				dealWithMessage(messType);
 				
@@ -93,10 +95,10 @@ public class MainService extends Thread {
 			dealWithDefault(sendedUser);
 			break;
 		case 1 :
-			
+			dealWithSendAll();
 			break;
 		case 2 :
-			
+			dealWithLogout();
 			break;
 		case 3 :
 			dealWithLogin(userInfo,userName,port,address,userInfoList);
@@ -109,33 +111,35 @@ public class MainService extends Thread {
 		UserInfo userInfor_inner = null;
 		MessageClass message;
 		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
-			if((name = ite.next()).equals(userName)){
-				userInfor_inner = (UserInfo)allUserMap.get(name);
-			}
-			try {
-				message = new MessageClass();		
-				message.setSendedUser(userName);
-				message.setMessType(MessageType.DEFAULT);
-				message.setMessage(this.message);
-				
-				JSONObject json = new JSONObject(message.getJsonMap());
-				
-				Socket soc = new Socket(userInfor_inner.getAddress(), userInfor_inner.getPort());
-				OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
-				output.write(json.toString());
-				output.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(ite.hasNext()){
+				if((name = ite.next()).equals(userName)){
+					userInfor_inner = (UserInfo)allUserMap.get(name);
+					
+					try {
+						message = new MessageClass();		
+						message.setSendedUser(userName);
+						message.setMessType(MessageType.DEFAULT);
+						message.setMessage(this.message);
+						
+						JSONObject json = new JSONObject(message.getJsonMap());
+						
+						Socket soc = new Socket(userInfor_inner.getAddress(), userInfor_inner.getPort());
+						OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
+						output.write(json.toString());
+						output.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}
 	
+	//发送1表示用户已经占用
 	public void dealWithLogin(JList userInfo,String userName,int port,String address,Vector userInfoList){
 		if(isUserNameUsed(userName, allUserMap)){
 			sendLoginStatus(port, address, "1");
-			System.out.println("userName is used !");
 		}else{
-			sendLoginStatus(port, address,"0");
 			String name = userName;
 			String userInformation = "";
 			if(name.length() > 18){
@@ -158,13 +162,27 @@ public class MainService extends Thread {
 			UserInfo aUserInfo = new UserInfo();
 			aUserInfo.setAddress(address);
 			aUserInfo.setPort(port);
+			
 			aUserInfo.setPosition(userInfoList.size()); //设置用户信息在vetor中的某个位置，以便用户退出时进行用户信息的删除操作
-			allUserMap.put(name, aUserInfo);
+			allUserMap.put(userName, aUserInfo);
+			
+			Map<String, Object> map = allUserToMap(allUserMap);
+			sendUserList(port, address, map);
 		}
 	}
 	
 	public void dealWithLogout(){
-		
+		UserInfo theUser =  allUserMap.get(userName);
+		int position = 0;
+		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){	
+			if(ite.next().equals(userName)){
+				allUserMap.remove(userName);					
+				break;
+			}	
+			++position;
+		}		
+		userInfoList.remove(position);
+		userInfo.setListData(userInfoList);
 	}
 	
 	public void dealWithSendAll(){
@@ -180,14 +198,56 @@ public class MainService extends Thread {
 		return false;
 	}
 	
+	
 	public void sendLoginStatus(int clientPort,String clientAddress,String status){
 		try {
 			Socket soc = new Socket(clientAddress, clientPort);
 			OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
 			output.write(status);
 			output.close();
+			soc.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	//发送用户列表给用户
+	public void sendUserList(int port,String address,Map<String, Object> allUserMap){
+		JSONObject json = new JSONObject(allUserMap);
+		MessageClass message = new MessageClass();
+		message.setMessType(3);
+		message.setMessage(json.toString());
+		JSONObject jsonSend = new JSONObject(message.getJsonMap());
+		for(Iterator ite = allUserMap.keySet().iterator();ite.hasNext();){
+			try {			
+				JSONObject user = new JSONObject((allUserMap.get(ite.next().toString())).toString());
+				sendLoginStatus(user.getInt("port"), user.getString("address"),jsonSend.toString());
+				System.out.println(json.toString());
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//将所有的用户转换为map
+	public Map<String, Object> allUserToMap(Map<String, UserInfo> allUserMap){
+		Map<String, Object> map = new TreeMap<String, Object>(); 
+		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
+			Map<String, Object> submap = new TreeMap<String, Object>();
+			String name = ite.next().toString();
+			UserInfo userInfo = allUserMap.get(name);
+			submap.put("address", userInfo.getAddress());
+			submap.put("port", userInfo.getPort());
+			map.put(name, submap);
+		}
+		return map;
+	}
 }
+
+
+
+
+
+
+
+

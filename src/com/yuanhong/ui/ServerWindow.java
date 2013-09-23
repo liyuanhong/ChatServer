@@ -2,26 +2,25 @@ package com.yuanhong.ui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.yuanhong.listener.StartStopServerKeyboardListener;
 import com.yuanhong.listener.StartStopServerListener;
+import com.yuanhong.listener.UserInfoListListener;
 import com.yuanhong.service.MainService;
 import com.yuanhong.util.ServiceCtrol;
 import com.yuanhong.util.ServicePort;
 import com.yuanhong.util.UserInfo;
-
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
 
 public class ServerWindow {
 
@@ -63,7 +62,7 @@ public class ServerWindow {
 		serviceCtrol = new ServiceCtrol();
 		port = new ServicePort();
 		userInfoList = new Vector();
-		allUserMap = new HashMap<String, UserInfo>();
+		allUserMap = new TreeMap<String, UserInfo>();
 		
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -123,6 +122,8 @@ public class ServerWindow {
 		
 		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
 		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
+		userInfo.addMouseListener(new UserInfoListListener(allUserMap, userInfo,frame));
 	}
 }
+
 
