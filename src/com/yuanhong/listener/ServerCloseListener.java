@@ -13,17 +13,17 @@ import com.yuanhong.util.MessageClass;
 import com.yuanhong.util.MessageType;
 import com.yuanhong.util.UserInfo;
 
-//服务器窗口关闭时向所有用户发送消息
-public class ServerWindowClosingListener extends WindowAdapter{
+//服务器关闭时向所有用户发送消息
+public class ServerCloseListener extends WindowAdapter{
 	private Map<String, UserInfo> allUserMap;
 	
-	public ServerWindowClosingListener(Map<String, UserInfo> allUserMap) {
+	public ServerCloseListener(Map<String, UserInfo> allUserMap) {
 		this.allUserMap = allUserMap;
 	}
 	
 	@Override
-	public void windowClosing(WindowEvent e) {
-		super.windowClosing(e);
+	public void windowClosing(WindowEvent arg0) {
+		super.windowClosing(arg0);
 		for(Iterator ite = allUserMap.keySet().iterator();ite.hasNext();){
 			MessageClass message;
 			UserInfo userInfor_inner = null;
@@ -40,8 +40,8 @@ public class ServerWindowClosingListener extends WindowAdapter{
 				output.write(json.toString());
 				output.close();
 				soc.close();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

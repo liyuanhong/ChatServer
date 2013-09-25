@@ -128,6 +128,7 @@ public class MainService extends Thread {
 						OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
 						output.write(json.toString());
 						output.close();
+						soc.close();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -247,7 +248,6 @@ public class MainService extends Thread {
 			try {			
 				JSONObject user = new JSONObject((allUserMap.get(ite.next().toString())).toString());
 				sendLoginStatus(user.getInt("port"), user.getString("address"),jsonSend.toString());
-				System.out.println(json.toString());
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -302,6 +302,7 @@ public class MainService extends Thread {
 					OutputStreamWriter output = new OutputStreamWriter(soc.getOutputStream());
 					output.write(json.toString());
 					output.close();
+					soc.close();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

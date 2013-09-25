@@ -14,7 +14,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import com.yuanhong.listener.StartStopServerKeyboardListener;
+import com.yuanhong.listener.ServerWindowClosingListener;
 import com.yuanhong.listener.StartStopServerListener;
 import com.yuanhong.listener.UserInfoListListener;
 import com.yuanhong.service.MainService;
@@ -120,9 +120,10 @@ public class ServerWindow {
 		frame.getContentPane().add(lblNewLabel_1);	
 		
 		
-		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
-		start_stopServer.addKeyListener(new StartStopServerKeyboardListener(start_stopServer, serviceCtrol, mainService,port,portField,userInfo,userInfoList,allUserMap));
+		start_stopServer.addMouseListener(new StartStopServerListener(start_stopServer, serviceCtrol, mainService,port,
+				portField,userInfo,userInfoList,allUserMap,frame));
 		userInfo.addMouseListener(new UserInfoListListener(allUserMap, userInfo,frame));
+		frame.addWindowListener(new ServerWindowClosingListener(allUserMap));
 	}
 }
 
