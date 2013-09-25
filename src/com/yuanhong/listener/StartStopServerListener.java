@@ -106,10 +106,10 @@ public class StartStopServerListener extends MouseAdapter {
 	}
 	
 	public void sendAllUserServerCloseMessage(){
-		for(Iterator ite = allUserMap.keySet().iterator();ite.hasNext();){
+		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
 			MessageClass message;
 			UserInfo userInfor_inner = null;
-			try {						
+			try {		
 				String theSendeUser = ite.next().toString();
 				userInfor_inner = (UserInfo)allUserMap.get(theSendeUser);
 				message = new MessageClass();		
@@ -122,13 +122,12 @@ public class StartStopServerListener extends MouseAdapter {
 				output.write(json.toString());
 				output.close();
 				soc.close();
-				
-				allUserMap.clear();
-				userInfoList.clear();
-				userInfo.setListData(userInfoList);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		allUserMap.clear();
+		userInfoList.clear();
+		userInfo.setListData(userInfoList);
 	}
 }

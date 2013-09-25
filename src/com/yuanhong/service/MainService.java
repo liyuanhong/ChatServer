@@ -65,7 +65,6 @@ public class MainService extends Thread {
 				while ((len = reader.read(ch)) != -1) {
 					infomation = infomation + String.valueOf(ch, 0, len);
 				}
-				System.out.println(infomation);
 				AnalyseMessage analyze = new AnalyseMessage(infomation);
 				
 				port = analyze.getClientPort();
