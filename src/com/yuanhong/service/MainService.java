@@ -92,7 +92,7 @@ public class MainService extends Thread {
 	public void dealWithMessage(int messType){
 		switch(messType){
 		case 0 : 
-			dealWithDefault(sendedUser);
+			dealWithDefault(userName);
 			break;
 		case 1 :
 			dealWithSendAll();
@@ -112,12 +112,12 @@ public class MainService extends Thread {
 		MessageClass message;
 		for(Iterator<String> ite = allUserMap.keySet().iterator();ite.hasNext();){
 			if(ite.hasNext()){
-				if((name = ite.next()).equals(userName)){
+				if((name = ite.next()).equals(sendedUser)){
 					userInfor_inner = (UserInfo)allUserMap.get(name);
 					
 					try {
 						message = new MessageClass();		
-						message.setSendedUser(userName);
+						message.setUserName(userName);
 						message.setMessType(MessageType.DEFAULT);
 						message.setMessage(this.message);
 						
